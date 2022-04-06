@@ -13,6 +13,7 @@ public class DeckOfCards extends Players {
                 System.out.println(deck[i]);
             }
         }
+    //UC4 shuffle cards
     public void shuffle(String deck[]) {
         for ( int i = deck.length-1; i > 0; i-- ) {
             Random random1 = new Random();
