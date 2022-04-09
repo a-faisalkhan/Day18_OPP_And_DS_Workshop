@@ -1,39 +1,49 @@
 package com.bridgelabz.deckofcardsws;
 
-import java.util.Random;
+public class DeckOfCards {
+	String[] SUITS = { "CLUBS", "DIAMOND", "HEARTS", "SPADES" };
+	String[] RANKS = { "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A" };
+	private String[] decks = new String[52];
+	private String[][] playersCards = new String[SUITS.length][RANKS.length];
+	private int distributedIndex;
 
-public class DeckOfCards extends Players {
-    String[] suits = {"Clubs", "Diamonds", "Hearts", "Spades"};
-    String[] ranks = {"2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "King", "Queen", "Ace"};
-    String[] deck = new String[52];
+	public void init() {
+		for (int i = 0; i < decks.length; i++) {
+			decks[i] = RANKS[i % 13] + SUITS[i / 13];
+		}
+	}
 
-    public void cardCombination(){
-            for (int i = 0; i < deck.length; i++) {
-                deck[i] = ranks[i % 13] + " " + suits[i / 13];
-                System.out.println(deck[i]);
-            }
-        }
-    //UC4 shuffle cards
-    public void shuffle(String deck[]) {
-        for ( int i = deck.length-1; i > 0; i-- ) {
-            Random random1 = new Random();
-            int rand = random1.nextInt(52);
-            String temp = deck[i];
-            deck[i] = deck[rand];
-            deck[rand] = temp;
-        }
-    }
-    public void printCard() {
-        for (int k = 0; k < 52; k++)
-            System.out.print(deck[k] + ",");
-    }
+	public void shuffle() {
+		for (int i = 0; i < decks.length; i++) {
+			int randomIndex = (int) (Math.random() * decks.length);
+			String temp = decks[i];
+			decks[i] = decks[randomIndex];
+			decks[randomIndex] = temp;
+		}
+	}
 
-    public static void main(String[] args) {
-            DeckOfCards deckOfCards = new DeckOfCards();
-            Players players = new Players();
-            deckOfCards.cardCombination();
-            deckOfCards.shuffle(deckOfCards.deck);
-            System.out.println("Shuffled card combinations are: ");
-            deckOfCards.printCard();
-    }
+	public void distribute() {
+		for (int j = 0; j < 9; j++) {
+			for (int i = 0; i < 4; i++) {
+				playersCards[i][j] = decks[distributedIndex++];
+			}
+		}
+//		distributedIndex = 0;
+	}
+
+	public void print() {
+		for (int i = 0; i < decks.length; i++) {
+			System.out.println(decks[i]);
+		}
+	}
+
+	public void printDistributedCards() {
+		for (int i = 0; i < 4; i++) {
+			System.out.println("Player " + (i + 1) + "");
+			for (int j = 0; j < 9; j++) {
+				System.out.print(playersCards[i][j] + "    ");
+			}
+			System.out.println("\n");
+		}
+	}
 }
